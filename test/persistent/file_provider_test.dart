@@ -28,7 +28,6 @@ void main() {
       var clockModel = new ClockModel();
       clockModel.clockStatus = ClockStatus.PROGRESSING;
       clockModel.lastStartTime = new DateTime.now();
-      clockModel.passedSeconds = 5;
       clockModel.tomatoCount = 10;
       clockModel.stage = Stage.WORKING;
 
@@ -37,7 +36,6 @@ void main() {
       var value = await file.readClockModel();
       expect(value.lastStartTime, clockModel.lastStartTime);
       expect(value.stage, clockModel.stage);
-      expect(value.passedSeconds, clockModel.passedSeconds);
       expect(value.tomatoCount, clockModel.tomatoCount);
       expect(value.clockStatus, clockModel.clockStatus);
 
