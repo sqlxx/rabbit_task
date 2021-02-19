@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum TimerStatus {
@@ -10,10 +9,11 @@ enum TimerStatus {
 class CircularTimer extends StatefulWidget {
 
   final int totalSecs;
-  final int remainingSecs;
+  final int remainingMs;
   final TimerStatus status;
+  final Function onFinshed;
 
-  CircularTimer({this.totalSecs, this.remainingSecs, this.status});
+  CircularTimer({this.totalSecs, this.remainingMs, this.status, this.onFinshed}) ;
 
   @override
   State<CircularTimer> createState() => _CircularTimerState();
@@ -47,7 +47,7 @@ class _CircularTimerState extends State<CircularTimer> {
     setState(() {
       
       _totalMs = widget.totalSecs * 1000;
-      _remainingMs = widget.remainingSecs * 1000;
+      _remainingMs = widget.remainingMs;
 
     });
 
@@ -62,12 +62,13 @@ class _CircularTimerState extends State<CircularTimer> {
     _timer = new Timer.periodic(tick, 
       (timer) { 
         setState(() {
-          if (_remainingMs == 0) {
+          if (_remainingMs <= 100) {
             timer.cancel();
+            widget.onFinshed();            
           } else {
             _remainingMs -= 100;
 
-          }
+          } 
         });
       });
   }
